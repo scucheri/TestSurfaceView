@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource"
+    android:background="@android:color/holo_red_dark">
+
+    <FrameLayout
+        android:id="@+id/surfaceView_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:background="@android:color/holo_blue_bright">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_gravity="center"
+        android:layout_width="200dp"
+        android:layout_height="200dp"></SurfaceView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/gone_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set container gone"></Button>
+
+
+        <Button
+            android:id="@+id/remove_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="remove surfaceView"></Button>
+
+    </LinearLayout>
+    </FrameLayout>
+
+
+</FrameLayout>

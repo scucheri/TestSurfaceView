@@ -1,0 +1,54 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant DispSyncSource #099FF9
+participant TextView.java #0AF5CE
+participant ViewRootImpl.java #0AF5CE
+participant Choreographer.java #0AF5CE
+participant FrameDisplayEventReceiver.java #0AF5CE
+participant ThreadedRenderer.java #0AF5CE
+participant RenderProxy.cpp  #FC9B0A
+participant SurfaceFlinger  #F238B1
+
+TextView.java -> TextView.java:  <b>setText
+TextView.java -> TextView.java:  <b>invalidate
+TextView.java -> ViewRootImpl.java
+ViewRootImpl.java -> ViewRootImpl.java:  <b>invalidate
+ViewRootImpl.java -> ViewRootImpl.java:  <b>scheduleTraversals
+ViewRootImpl.java -> Choreographer.java:  <b> mTraversalRunnable
+Choreographer.java -> Choreographer.java :  <b>postCallBack:  <b> 将ViewRootImpl.java中的\n <b>mTraversalRunnable\n <b>注册到Choreographer.java\n <b>并向底层注册监听下一个vSync信号
+Choreographer.java->FrameDisplayEventReceiver.java
+FrameDisplayEventReceiver.java -> FrameDisplayEventReceiver.java:  <b> scheduleVsync:向底层\n <b>注册监听下一个vSync信号
+
+DispSyncSource -[#099FF9]> FrameDisplayEventReceiver.java: <font color=#099FF9><b>vSync
+
+FrameDisplayEventReceiver.java -> FrameDisplayEventReceiver.java:  <b>onVsync:通过handler主线程\n <b>发送Runnable
+
+FrameDisplayEventReceiver.java->Choreographer.java
+Choreographer.java -> Choreographer.java:  <b>run
+Choreographer.java -> Choreographer.java:  <b>doFrame
+Choreographer.java -> Choreographer.java:  <b>doCallBacks如\n <b>CALLBACK_TRAVERSAL
+Choreographer.java -> Choreographer.java:  <b>找到之前通过postCallBack注册\n <b>进来的mTraversalRunnable执行run
+Choreographer.java -> ViewRootImpl.java
+ViewRootImpl.java -> ViewRootImpl.java:  <b>doTraversal
+ViewRootImpl.java -> ViewRootImpl.java:  <b>performTraversals
+ViewRootImpl.java -> ViewRootImpl.java:  <b>performMeasure、performLayout
+ViewRootImpl.java -> ViewRootImpl.java:  <b>performDraw
+ViewRootImpl.java -> ThreadedRenderer.java: <b> view and attachInfo
+ThreadedRenderer.java -> ThreadedRenderer.java :  <b>draw
+ThreadedRenderer.java -> ThreadedRenderer.java :  <b>updateRootDisplayList
+ThreadedRenderer.java -> ThreadedRenderer.java :  <b>nSyncAndDrawFrame
+
+ThreadedRenderer.java -> RenderProxy.cpp : <b>RenderNodes
+RenderProxy.cpp -> RenderProxy.cpp :  <b>dequeue从SurfaceFinger\n <b>拿到graphic buffer，\n <b>然后进行渲染绘制，\n <b>渲染完成后回到BufferQueue队列
+
+DispSyncSource -[#099FF9]> SurfaceFlinger: <font color=#099FF9><b>SF vSync
+SurfaceFlinger -> SurfaceFlinger :  <b>消费graphic buffer, \n <b>将layer合成并交给\n <b>display显示
+
+note over TextView.java, ThreadedRenderer.java: main thread
+note over  RenderProxy.cpp: RenderThread
+note over SurfaceFlinger: system process
+
+@enduml

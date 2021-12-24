@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant ParentView
+participant SurfaceView #0AF5CE
+
+ParentView -> ParentView : <b> removeView: SurfaceView
+ParentView -> SurfaceView
+SurfaceView -> SurfaceView  : <b> dispatchDetachedFromWindow
+SurfaceView -> SurfaceView  : <b> onWindowVisibilityChanged
+SurfaceView -> SurfaceView  : <b> updateSurface
+SurfaceView -> SurfaceView  : <b> notifySurfaceDestroyed
+SurfaceView -> SurfaceView  : <b> tryReleaseSurfaces
+SurfaceView -> Surface
+Surface -> Surface  : <b> release: Release the local\n <b> reference to the server-side surface
+Surface -> SurfaceFlinger
+SurfaceFlinger -> SurfaceFlinger:  <b> remove Layer
+@enduml

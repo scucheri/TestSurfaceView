@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+participant GridPageViewControl #099FF9
+participant OldModeView
+participant NewModeView #0AF5CE
+participant MeetingUnit_of_OldModeView
+participant MeetingUnit_of_NewModeView  #0AF5CE
+
+
+
+
+GridPageViewControl -> GridPageViewControl: <b> refreshAllUnits
+GridPageViewControl -> OldModeView : <b>RefreshModel
+OldModeView -> OldModeView:  <b>Gone
+OldModeView -> NewModeView
+NewModeView -> NewModeView:  <b>Visible
+OldModeView -> MeetingUnit_of_OldModeView:  <b>遍历所有的MeetingUnit
+MeetingUnit_of_OldModeView -> MeetingUnit_of_OldModeView :  <b>reset: <font color=red>remove surfaceView \n<b>unbindRenderView
+NewModeView -> MeetingUnit_of_NewModeView :  <b>遍历所有的MeetingUnit
+MeetingUnit_of_NewModeView -> MeetingUnit_of_NewModeView:  <b> fullRefresh:  头像请求与初始化 \n<b> add surfaceView  \n<b> surfaceView绑定流
+
+note over GridPageViewControl, MeetingUnit_of_NewModeView: main thread
+
+@enduml
