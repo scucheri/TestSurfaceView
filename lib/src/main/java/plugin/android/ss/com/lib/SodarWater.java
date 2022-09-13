@@ -16,7 +16,7 @@ import java.util.Scanner;
  5
  40
  */
-public class HuaweiSodarWater {
+public class SodarWater {
     public static void main(String[] args) {
         try {
             ArrayList<Integer> inputList = new ArrayList<>();
