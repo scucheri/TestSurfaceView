@@ -1,5 +1,6 @@
 package cc.rome753.liquidapp;
 
+import android.annotation.NonNull;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,9 +8,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.FrameLayout;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.fpl.liquidfun.Body;
 import com.google.fpl.liquidfun.BodyDef;
@@ -25,6 +23,7 @@ import com.google.fpl.liquidfun.Vec2;
 import com.google.fpl.liquidfun.World;
 
 import java.util.Random;
+import org.jetbrains.annotations.Nullable;
 
 public class LiquidLayout extends FrameLayout {
 
